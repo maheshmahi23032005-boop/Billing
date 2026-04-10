@@ -78,4 +78,40 @@ function getSummary() {
   };
 }
 
-module.exports = { getSummary };
+function getTodaysApprovedCount() {
+  const database = getDb();
+  return firstExecRow(
+    database,
+    `SELECT COUNT(*) AS count
+     FROM reimbursements
+     WHERE status = 'Approved'
+     AND DATE(created_at) = DATE('now')`
+  )?.count ?? 0;
+}
+
+function getPendingReviewCount() {
+  const database = getDb();
+  return firstExecRow(
+    database,
+    `SELECT COUNT(*) AS count
+     FROM reimbursements
+     WHERE status = 'Pending'`
+  )?.count ?? 0;
+}
+
+function getReadyForPaymentCount() {
+  const database = getDb();
+  return firstExecRow(
+    database,
+    `SELECT COUNT(*) AS count
+     FROM reimbursements
+     WHERE status = 'Approved'`
+  )?.count ?? 0;
+}
+
+module.exports = { 
+  getSummary, 
+  getTodaysApprovedCount, 
+  getPendingReviewCount, 
+  getReadyForPaymentCount 
+};

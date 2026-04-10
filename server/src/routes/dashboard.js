@@ -1,5 +1,7 @@
 const express = require('express');
 const { requireRoles } = require('../middleware/rbac');
+const { getUserCount, getActiveUserCount } = require('../db/users');
+const { getTodaysApprovedCount, getPendingReviewCount, getReadyForPaymentCount } = require('../db/reports');
 
 const router = express.Router();
 
@@ -41,16 +43,28 @@ router.get('/reviewer', ...requireRoles('reviewer'), (req, res) => {
 });
 
 router.get('/manager', ...requireRoles('manager'), (req, res) => {
-  res.json({
-    role: 'manager',
-    title: 'Manager dashboard',
-    userCount: 0,
-    summary: {
-      pendingReimbursements: '—',
-      approvedThisMonth: '—',
-    },
-    message: 'Manage team reimbursements and approve/reject requests.',
-  });
+  try {
+    const userCount = getActiveUserCount();
+    const pendingReview = getPendingReviewCount();
+    const approvedToday = getTodaysApprovedCount();
+    const readyForPayment = getReadyForPaymentCount();
+
+    res.json({
+      role: 'manager',
+      title: 'Manager dashboard',
+      userCount,
+      pendingReview,
+      approvedToday,
+      readyForPayment,
+      summary: {
+        pendingReimbursements: pendingReview,
+        approvedThisMonth: approvedToday,
+      },
+      message: 'Manage team reimbursements and approve/reject requests.',
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to load dashboard data' });
+  }
 });
 
 module.exports = router;

@@ -3,12 +3,7 @@ import { createContext, useCallback, useContext, useState } from 'react';
 const NotificationContext = createContext(null);
 
 const getNotificationIcon = (type) => {
-  switch (type) {
-    case 'success': return '✅';
-    case 'error': return '❌';
-    case 'warning': return '⚠️';
-    default: return 'ℹ️';
-  }
+  return '';
 };
 
 const getNotificationTitle = (type) => {

@@ -3,10 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const ROLES = [
-  { value: 'employee', label: '👤 Employee', description: 'Submit reimbursement requests' },
-  { value: 'reviewer', label: '👁️ Reviewer', description: 'View status of all reimbursements and payments' },
-  { value: 'manager', label: '👔 Manager', description: 'Approve/reject team reimbursement requests' },
-  { value: 'financial', label: '💰 Financial', description: 'Process payments for approved requests (Secure access required)' },
+  { value: 'employee', label: 'Employee', description: 'Submit reimbursement requests' },
+  { value: 'reviewer', label: 'Reviewer', description: 'View status of reimbursements and payments' },
+  { value: 'manager', label: 'Manager', description: 'Approve or reject team reimbursement requests' },
+  { value: 'financial', label: 'Financial', description: 'Process payments for approved requests' },
 ];
 
 export default function Register() {
@@ -38,48 +38,33 @@ export default function Register() {
     <div className="auth-page">
       <div className="auth-card">
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{
-            width: '60px',
-            height: '60px',
-            background: 'var(--gradient-primary)',
-            borderRadius: '50%',
-            margin: '0 auto 1rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontSize: '24px',
-            fontWeight: 'bold'
-          }}>
-            ✨
-          </div>
-          <h1>Create Account</h1>
-          <p className="muted">Join our billing management system</p>
+          <h1>Create an account</h1>
+          <p className="muted">Start using the billing portal in seconds</p>
         </div>
-        
+
         <form onSubmit={handleSubmit}>
           <label className="auth-field">
-            👤 Full Name
-            <input 
-              value={name} 
-              onChange={(e) => setName(e.target.value)} 
-              required 
+            Full name
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
               placeholder="Enter your full name"
             />
           </label>
           <label className="auth-field">
-            📧 Email Address
+            Email address
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              placeholder="Enter your email"
+              placeholder="name@company.com"
             />
           </label>
           <label className="auth-field">
-            🔒 Password
+            Password
             <input
               type="password"
               value={password}
@@ -87,59 +72,41 @@ export default function Register() {
               required
               minLength={6}
               autoComplete="new-password"
-              placeholder="Create a strong password (min 6 chars)"
+              placeholder="Create a strong password"
             />
           </label>
           <label className="auth-field">
-            🎭 Select Role
-            <select value={role} onChange={(e) => setRole(e.target.value)} style={{ padding: '0.75rem 1rem' }}>
+            Select role
+            <select value={role} onChange={(e) => setRole(e.target.value)}>
               {ROLES.map((r) => (
                 <option key={r.value} value={r.value}>
                   {r.label}
                 </option>
               ))}
             </select>
-            <div style={{ 
-              fontSize: '0.8rem', 
-              color: 'var(--text-secondary)', 
-              marginTop: '0.5rem',
-              fontStyle: 'italic'
-            }}>
-              {ROLES.find(r => r.value === role)?.description}
+            <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
+              {ROLES.find((r) => r.value === role)?.description}
             </div>
           </label>
           {error ? <p className="form-error">{error}</p> : null}
-          <button type="submit" disabled={submitting} className="auth-submit">
-            {submitting ? (
-              <>
-                <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⏳</span>
-                Creating Account…
-              </>
-            ) : (
-              <>
-                🚀 Create Account
-              </>
-            )}
+          <button type="submit" disabled={submitting} className="auth-submit btn btn-primary">
+            {submitting ? 'Creating account...' : 'Create account'}
           </button>
         </form>
-        
+
         <p style={{ marginTop: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
-          Already have an account? <Link to="/login" style={{ color: 'var(--primary)', fontWeight: '600' }}>Sign in here</Link>
+          Already registered?{' '}
+          <Link to="/login" style={{ color: 'var(--primary)', fontWeight: '600' }}>
+            Sign in
+          </Link>
         </p>
-        
-        <div style={{ 
-          marginTop: '2rem', 
-          padding: '1rem', 
-          background: 'var(--surface-elevated)', 
-          borderRadius: 'var(--radius)',
-          fontSize: '0.85rem',
-          color: 'var(--text-secondary)'
-        }}>
-          <strong>Demo Accounts:</strong><br/>
-          👔 manager@demo.local / password123<br/>
-          👤 employee@demo.local / password123<br/>
-          👁️ reviewer@demo.local / password123<br/>
-          💰 financial@demo.local / finance123
+
+        <div className="auth-info-box">
+          <strong>Demo accounts</strong>
+          <div>manager@demo.local / password123</div>
+          <div>employee@demo.local / password123</div>
+          <div>reviewer@demo.local / password123</div>
+          <div>financial@demo.local / finance123</div>
         </div>
       </div>
     </div>

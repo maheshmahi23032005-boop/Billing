@@ -11,12 +11,10 @@ export default function FinancialAuth({ children }) {
   const [authError, setAuthError] = useState('');
   const [authenticating, setAuthenticating] = useState(false);
 
-  // If user is not financial, don't render anything
   if (user?.role !== 'financial') {
     return null;
   }
 
-  // If already authenticated, show the children
   if (isAuthenticated) {
     return children;
   }
@@ -27,36 +25,27 @@ export default function FinancialAuth({ children }) {
     setAuthenticating(true);
 
     try {
-      // Simulate financial authentication (in production, this would be a secure API call)
       const validCredentials = {
         email: 'financial@demo.local',
-        password: 'finance123'
+        password: 'finance123',
       };
 
       if (email === validCredentials.email && password === validCredentials.password) {
         setIsAuthenticated(true);
-        success(
-          '🔐 Financial access granted. You can now process payments.',
-          {
-            title: 'Authentication Successful',
-            icon: '💰',
-            duration: 4000
-          }
-        );
+        success('Financial access granted. You can now process payments.', {
+          title: 'Authentication successful',
+          duration: 4000,
+        });
       } else {
         throw new Error('Invalid financial credentials');
       }
     } catch (err) {
       const errorMessage = err.message || 'Authentication failed';
       setAuthError(errorMessage);
-      notifyError(
-        `❌ Financial authentication failed: ${errorMessage}`,
-        {
-          title: 'Access Denied',
-          icon: '🔒',
-          duration: 5000
-        }
-      );
+      notifyError(`Financial authentication failed: ${errorMessage}`, {
+        title: 'Access denied',
+        duration: 5000,
+      });
     } finally {
       setAuthenticating(false);
     }
@@ -64,120 +53,49 @@ export default function FinancialAuth({ children }) {
 
   return (
     <div className="layout-shell">
-      <div className="layout-main" style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        minHeight: '80vh'
-      }}>
-        <div className="card" style={{ 
-          maxWidth: '500px', 
-          width: '100%',
-          textAlign: 'center',
-          padding: '3rem'
-        }}>
-          <div style={{
-            width: '80px',
-            height: '80px',
-            background: 'var(--gradient-accent)',
-            borderRadius: '50%',
-            margin: '0 auto 2rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontSize: '36px',
-            boxShadow: 'var(--shadow-lg)'
-          }}>
-            🔐
+      <div className="layout-main" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh' }}>
+        <div className="card auth-card" style={{ maxWidth: '520px', width: '100%' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <h2>Finance access required</h2>
+            <p className="muted">Enter your financial credentials to continue with payment processing.</p>
           </div>
-          
-          <h2 style={{ margin: '0 0 1rem', color: 'var(--text-primary)' }}>
-            Financial Access Required
-          </h2>
-          
-          <p style={{ 
-            margin: '0 0 2rem', 
-            color: 'var(--text-secondary)',
-            lineHeight: '1.6'
-          }}>
-            For security reasons, financial team members must authenticate with their financial credentials to access payment processing features.
-          </p>
 
           <form onSubmit={handleFinancialAuth}>
-            <div style={{ marginBottom: '1.5rem' }}>
-              <label className="form-field">
-                📧 Financial Email
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="input"
-                  placeholder="Enter your financial email"
-                  style={{ textAlign: 'center' }}
-                />
-              </label>
-            </div>
+            <label className="auth-field">
+              Financial email
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="input"
+                placeholder="financial@demo.local"
+              />
+            </label>
 
-            <div style={{ marginBottom: '1.5rem' }}>
-              <label className="form-field">
-                🔒 Financial Password
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="input"
-                  placeholder="Enter your financial password"
-                  style={{ textAlign: 'center' }}
-                />
-              </label>
-            </div>
+            <label className="auth-field">
+              Financial password
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="input"
+                placeholder="Enter your password"
+              />
+            </label>
 
-            {authError ? (
-              <div className="form-error" style={{ marginBottom: '1rem' }}>
-                {authError}
-              </div>
-            ) : null}
+            {authError ? <div className="form-error">{authError}</div> : null}
 
-            <button 
-              type="submit" 
-              className="btn btn-primary"
-              disabled={authenticating}
-              style={{
-                width: '100%',
-                background: 'var(--gradient-accent)',
-                border: 'none',
-                padding: '1rem',
-                fontSize: '1.1rem'
-              }}
-            >
-              {authenticating ? (
-                <>
-                  <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⏳</span>
-                  Authenticating...
-                </>
-              ) : (
-                <>
-                  🔐 Authenticate Financial Access
-                </>
-              )}
+            <button type="submit" className="btn btn-primary" disabled={authenticating} style={{ width: '100%', padding: '1rem' }}>
+              {authenticating ? 'Authenticating...' : 'Authenticate access'}
             </button>
           </form>
 
-          <div style={{ 
-            marginTop: '2rem', 
-            padding: '1rem', 
-            background: 'var(--surface-elevated)', 
-            borderRadius: 'var(--radius)',
-            fontSize: '0.85rem',
-            color: 'var(--text-secondary)',
-            border: '1px solid var(--border-light)'
-          }}>
-            <strong>Demo Financial Credentials:</strong><br/>
-            📧 financial@demo.local<br/>
-            🔒 finance123
+          <div className="auth-info-box" style={{ marginTop: '2rem' }}>
+            <strong>Demo credentials</strong>
+            <div>financial@demo.local</div>
+            <div>finance123</div>
           </div>
         </div>
       </div>

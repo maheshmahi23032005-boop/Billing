@@ -59,7 +59,7 @@ export default function App() {
       <Route
         path="/dashboard/financial"
         element={
-          <ProtectedRoute roles={['financial']}>
+          <ProtectedRoute roles={['financial', 'manager']}>
             <FinancialDashboardPage />
           </ProtectedRoute>
         }

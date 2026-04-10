@@ -20,37 +20,15 @@ export default function ReviewerDashboard() {
       </header>
       
       <main className="layout-main">
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: '1rem', 
-          marginBottom: '2rem' 
-        }}>
-          <div style={{
-            width: '50px',
-            height: '50px',
-            background: 'var(--gradient-secondary)',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontSize: '24px',
-            boxShadow: 'var(--shadow)'
-          }}>
-            Reviewer
-          </div>
-          <div>
-            <h1 className="page-title" style={{ margin: 0 }}>
-              Reviewer Dashboard
-            </h1>
-            <p className="lead" style={{ margin: '0.5rem 0 0' }}>
-              View status of all reimbursements and payments
-            </p>
-          </div>
-        </div>
+        <section className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+          <h1 className="page-title" style={{ marginBottom: '0.5rem' }}>
+            Reviewer dashboard
+          </h1>
+          <p className="lead">
+            Monitor reimbursement workflows and audit payment progress.
+          </p>
+        </section>
 
-        {/* Reviewer-specific component */}
         <ReviewerStatusDashboard />
       </main>
     </div>

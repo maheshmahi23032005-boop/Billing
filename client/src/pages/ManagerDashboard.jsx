@@ -21,37 +21,15 @@ export default function ManagerDashboard() {
       </header>
       
       <main className="layout-main">
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: '1rem', 
-          marginBottom: '2rem' 
-        }}>
-          <div style={{
-            width: '50px',
-            height: '50px',
-            background: 'var(--gradient-primary)',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontSize: '24px',
-            boxShadow: 'var(--shadow)'
-          }}>
-            Manager
-          </div>
-          <div>
-            <h1 className="page-title" style={{ margin: 0 }}>
-              Manager Dashboard
-            </h1>
-            <p className="lead" style={{ margin: '0.5rem 0 0' }}>
-              Manage team reimbursements and approve/reject requests
-            </p>
-          </div>
-        </div>
+        <section className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+          <h1 className="page-title" style={{ marginBottom: '0.5rem' }}>
+            Manager dashboard
+          </h1>
+          <p className="lead">
+            Review, approve, and manage reimbursements for your team with clarity.
+          </p>
+        </section>
 
-        {/* Manager-specific components */}
         <AdminInsights />
         <ReviewReimbursements />
       </main>

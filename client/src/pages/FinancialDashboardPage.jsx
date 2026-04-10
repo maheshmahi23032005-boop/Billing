@@ -21,37 +21,15 @@ export default function FinancialDashboardPage() {
       </header>
       
       <main className="layout-main">
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: '1rem', 
-          marginBottom: '2rem' 
-        }}>
-          <div style={{
-            width: '50px',
-            height: '50px',
-            background: 'var(--gradient-accent)',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontSize: '24px',
-            boxShadow: 'var(--shadow)'
-          }}>
-            Financial
-          </div>
-          <div>
-            <h1 className="page-title" style={{ margin: 0 }}>
-              Financial Dashboard
-            </h1>
-            <p className="lead" style={{ margin: '0.5rem 0 0' }}>
-              Process payments for approved requests
-            </p>
-          </div>
-        </div>
+        <section className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+          <h1 className="page-title" style={{ marginBottom: '0.5rem' }}>
+            Financial dashboard
+          </h1>
+          <p className="lead">
+            Handle approved reimbursements, execute payments, and keep financial records current.
+          </p>
+        </section>
 
-        {/* Financial-specific component with authentication */}
         <FinancialAuth>
           <FinancialDashboard />
         </FinancialAuth>

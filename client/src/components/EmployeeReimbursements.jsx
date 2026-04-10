@@ -42,20 +42,17 @@ export default function EmployeeReimbursements() {
         next[r.id] = r.status;
         if (prev[r.id] === 'Pending' && r.status !== 'Pending') {
           const amount = Number(r.amount).toFixed(2);
-          const statusIcon = r.status === 'Approved' ? '✅' : '❌';
           const statusText = r.status === 'Approved' ? 'approved' : 'rejected';
           
           if (r.status === 'Approved') {
             success(
-              `🎉 Great news! Your reimbursement #${r.id} for $${amount} (${r.category}) has been approved!${r.comment ? ` Reviewer note: ${r.comment}` : ''}`,
+              `Your reimbursement #${r.id} for $${amount} (${r.category}) has been approved.${r.comment ? ` Reviewer note: ${r.comment}` : ''}`,
               {
-                title: 'Reimbursement Approved',
-                icon: '💰',
+                title: 'Reimbursement approved',
                 duration: 6000,
                 action: {
-                  label: 'View Details',
+                  label: 'View details',
                   onClick: () => {
-                    // Scroll to the specific reimbursement
                     const element = document.querySelector(`[data-reimbursement-id="${r.id}"]`);
                     if (element) {
                       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -67,10 +64,9 @@ export default function EmployeeReimbursements() {
             );
           } else {
             info(
-              `📝 Your reimbursement #${r.id} for $${amount} (${r.category}) has been rejected.${r.comment ? ` Reason: ${r.comment}` : ''}`,
+              `Your reimbursement #${r.id} for $${amount} (${r.category}) has been rejected.${r.comment ? ` Reason: ${r.comment}` : ''}`,
               {
-                title: 'Reimbursement Rejected',
-                icon: '📋',
+                title: 'Reimbursement rejected',
                 duration: 6000
               }
             );
@@ -149,20 +145,17 @@ export default function EmployeeReimbursements() {
       
       const submittedAmount = Number(amount).toFixed(2);
       success(
-        `📋 Your reimbursement request for $${submittedAmount} (${category}) has been submitted successfully! It's now pending manager review.`,
+        `Your reimbursement request for $${submittedAmount} (${category}) has been submitted successfully and is pending manager review.`,
         {
-          title: 'Request Submitted',
-          icon: '✨',
+          title: 'Request submitted',
           duration: 5000
         }
       );
       
-      // Send notification to managers (this would typically be handled by the backend)
       info(
-        `📢 New reimbursement request submitted: $${submittedAmount} for ${category} by ${user?.name || 'Employee'}. Managers have been notified.`,
+        `New reimbursement request submitted: $${submittedAmount} for ${category} by ${user?.name || 'Employee'}. Managers have been notified.`,
         {
-          title: 'Manager Notification Sent',
-          icon: '👔',
+          title: 'Manager notification sent',
           duration: 4000
         }
       );
@@ -181,10 +174,9 @@ export default function EmployeeReimbursements() {
       
       setFormError(errorMessage);
       notifyError(
-        `❌ Failed to submit reimbursement request: ${errorMessage}`,
+        `Failed to submit reimbursement request: ${errorMessage}`,
         {
-          title: 'Submission Failed',
-          icon: '⚠️',
+          title: 'Submission failed',
           duration: 6000
         }
       );
@@ -282,16 +274,7 @@ export default function EmployeeReimbursements() {
 
         {formError ? <p className="form-error">{formError}</p> : null}
         <button type="submit" className="btn btn-primary" disabled={submitting}>
-          {submitting ? (
-            <>
-              <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⏳</span>
-              Submitting...
-            </>
-          ) : (
-            <>
-              📋 Submit Request
-            </>
-          )}
+          {submitting ? 'Submitting...' : 'Submit request'}
         </button>
       </form>
 

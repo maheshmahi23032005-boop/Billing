@@ -10,6 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar, Doughnut } from 'react-chartjs-2';
+import { useNavigate } from 'react-router-dom';
 import api from '../api/client';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
@@ -23,6 +24,7 @@ const chartOpts = {
 };
 
 export default function AdminInsights() {
+  const navigate = useNavigate();
   const [summary, setSummary] = useState(null);
   const [logs, setLogs] = useState(null);
   const [logPage, setLogPage] = useState(1);
@@ -56,9 +58,14 @@ export default function AdminInsights() {
     try {
       setLoading(true);
       
-      // Load team statistics
-      const { data: teamData } = await api.get('/dashboard/manager');
-      setTeamStats(teamData);
+      // Load team statistics from dashboard API
+      const { data: dashboardData } = await api.get('/dashboard/manager');
+      setTeamStats({
+        userCount: dashboardData.userCount,
+        pendingReview: dashboardData.pendingReview,
+        approvedToday: dashboardData.approvedToday,
+        readyForPayment: dashboardData.readyForPayment,
+      });
       
       // Load pending requests for quick action
       const { data: pendingData } = await api.get('/reimbursement/all', {
@@ -80,6 +87,19 @@ export default function AdminInsights() {
   useEffect(() => {
     loadLogs();
   }, [loadLogs]);
+
+  const handlePendingReviewClick = () => {
+    // Scroll to the review section on the same page
+    const reviewSection = document.querySelector('.review-reimbursements');
+    if (reviewSection) {
+      reviewSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleApprovedTodayClick = () => {
+    // Navigate to financial dashboard for payment processing
+    navigate('/financial');
+  };
 
   const pending =
     summary?.byStatus?.find((s) => s.status === 'Pending')?.count ?? 0;
@@ -117,48 +137,39 @@ export default function AdminInsights() {
   return (
     <div className="admin-insights">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-        <h2 className="section-title" style={{ margin: 0 }}>👔 Manager Dashboard</h2>
+        <h2 className="section-title" style={{ margin: 0 }}>Manager dashboard</h2>
         <button 
           onClick={() => refreshData(loadSummary, loadTeamStats, loadLogs)}
           disabled={loading}
           className="btn btn-primary"
           style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}
         >
-          {loading ? (
-            <>
-              <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⏳</span>
-              Refreshing...
-            </>
-          ) : (
-            <>
-              🔄 Refresh Data
-            </>
-          )}
+          {loading ? 'Refreshing...' : 'Refresh data'}
         </button>
       </div>
       {error ? <p className="form-error">{error}</p> : null}
 
       {/* Manager Quick Actions */}
       <div className="card" style={{ marginBottom: '2rem' }}>
-        <h3 className="subsection-title">⚡ Quick Actions</h3>
+        <h3 className="subsection-title">Quick actions</h3>
         <div className="summary-grid">
           <div className="summary-card" style={{ 
             background: 'var(--warning-light)', 
             border: '1px solid var(--warning)',
             cursor: 'pointer',
             transition: 'all 0.2s ease'
-          }}>
+          }} onClick={handlePendingReviewClick}>
             <div className="summary-card-label">Pending Review</div>
-            <div className="summary-card-value">{pending}</div>
+            <div className="summary-card-value">{teamStats?.pendingReview || 0}</div>
             <div className="muted small">Click to review</div>
           </div>
           <div className="summary-card" style={{ 
             background: 'var(--success-light)', 
             border: '1px solid var(--success)',
             cursor: 'pointer'
-          }}>
+          }} onClick={handleApprovedTodayClick}>
             <div className="summary-card-label">Approved Today</div>
-            <div className="summary-card-value">{approved}</div>
+            <div className="summary-card-value">{teamStats?.approvedToday || 0}</div>
             <div className="muted small">Ready for payment</div>
           </div>
           <div className="summary-card" style={{ 
@@ -175,7 +186,7 @@ export default function AdminInsights() {
       {/* Recent Pending Requests */}
       {pendingRequests.length > 0 && (
         <div className="card" style={{ marginBottom: '2rem' }}>
-          <h3 className="subsection-title">📋 Recent Pending Requests</h3>
+          <h3 className="subsection-title">Recent pending requests</h3>
           <div className="request-list" style={{ marginBottom: 0 }}>
             {pendingRequests.map((r) => (
               <div key={r.id} className="request-card" style={{ marginBottom: '1rem' }}>
@@ -199,7 +210,7 @@ export default function AdminInsights() {
 
       {/* Team Performance */}
       <div className="card" style={{ marginBottom: '2rem' }}>
-        <h3 className="subsection-title">👥 Team Performance</h3>
+        <h3 className="subsection-title">Team performance</h3>
         <div className="summary-grid">
           <div className="summary-card">
             <div className="summary-card-label">Avg. Request Time</div>

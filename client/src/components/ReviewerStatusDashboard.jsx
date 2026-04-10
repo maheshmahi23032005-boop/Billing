@@ -60,17 +60,17 @@ export default function ReviewerStatusDashboard() {
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case 'Pending': return '⏳';
-      case 'Approved': return '✅';
-      case 'Paid': return '💰';
-      case 'Rejected': return '❌';
-      default: return '📋';
+      case 'Pending': return '';
+      case 'Approved': return '';
+      case 'Paid': return '';
+      case 'Rejected': return '';
+      default: return '';
     }
   };
 
   return (
     <section className="panel">
-      <h2 className="section-title">👁️ Reimbursement Status Dashboard</h2>
+      <h2 className="section-title">Reimbursement status dashboard</h2>
       <p className="lead">View the status of all reimbursement requests and payment processing</p>
 
       <div className="summary-grid">
@@ -115,10 +115,10 @@ export default function ReviewerStatusDashboard() {
             className="input"
           >
             <option value="">All Status</option>
-            <option value="Pending">⏳ Pending Manager Review</option>
-            <option value="Approved">✅ Approved for Payment</option>
-            <option value="Paid">💰 Payment Completed</option>
-            <option value="Rejected">❌ Rejected</option>
+            <option value="Pending">Pending manager review</option>
+            <option value="Approved">Approved for payment</option>
+            <option value="Paid">Payment completed</option>
+            <option value="Rejected">Rejected</option>
           </select>
         </label>
         <label className="inline-label flex-grow">
@@ -177,31 +177,31 @@ export default function ReviewerStatusDashboard() {
                   borderRadius: 'var(--radius)',
                   fontSize: '0.85rem'
                 }}>
-                  <strong>📊 Process Timeline:</strong>
+                  <strong>Process timeline</strong>
                   <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                     <div style={{ 
                       color: r.status !== 'Rejected' ? 'var(--success)' : 'var(--text-muted)',
                       fontWeight: r.status !== 'Rejected' ? '600' : '400'
                     }}>
-                      ✅ Submitted by {r.submittedBy?.name || 'Employee'}
+                      Submitted by {r.submittedBy?.name || 'Employee'}
                     </div>
                     {r.status !== 'Pending' && (
                       <div style={{ 
                         color: r.status === 'Rejected' ? 'var(--danger)' : 'var(--success)',
                         fontWeight: '600'
                       }}>
-                        {r.status === 'Rejected' ? '❌' : '✅'} Manager {r.status === 'Rejected' ? 'Rejected' : 'Approved'}
+                        Manager {r.status === 'Rejected' ? 'rejected' : 'approved'}
                         {r.comment && `: "${r.comment}"`}
                       </div>
                     )}
                     {r.status === 'Paid' && (
                       <div style={{ color: 'var(--success)', fontWeight: '600' }}>
-                        💰 Payment Processed by Financial Team
+                        Payment processed by the financial team
                       </div>
                     )}
                     {r.status === 'Approved' && (
                       <div style={{ color: 'var(--info)', fontWeight: '600' }}>
-                        ⏳ Awaiting Financial Processing
+                        Awaiting financial processing
                       </div>
                     )}
                   </div>

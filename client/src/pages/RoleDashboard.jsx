@@ -35,10 +35,10 @@ const paths = {
 };
 
 const roleIcons = {
-  manager: '�',
-  employee: '👤',
-  reviewer: '👁️',
-  financial: '💰'
+  manager: '',
+  employee: '',
+  reviewer: '',
+  financial: ''
 };
 
 const roleColors = {
@@ -78,26 +78,25 @@ export default function RoleDashboard({ role }) {
       <div className="layout-shell">
         <header className="top-bar">
           <Link to="/" className="top-bar-link">
-            🏠 Home
+            Home
           </Link>
           <span className="top-bar-user">
-            {roleIcons[role]} {user?.name} · {user?.role}
+            {user?.name} · {user?.role}
           </span>
           <button type="button" onClick={logout} className="btn btn-ghost top-bar-logout">
-            🚪 Log out
+            Log out
           </button>
         </header>
         <main className="layout-main">
           <div className="card" style={{ textAlign: 'center', padding: '3rem' }}>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>❌</div>
-            <h2 style={{ color: 'var(--danger)', marginBottom: '1rem' }}>Error Loading Dashboard</h2>
+            <h2 style={{ color: 'var(--danger)', marginBottom: '1rem' }}>Error loading dashboard</h2>
             <p className="form-error">{error}</p>
             <button 
               onClick={() => window.location.reload()} 
               className="btn btn-primary" 
               style={{ marginTop: '1rem' }}
             >
-              🔄 Retry
+              Retry
             </button>
           </div>
         </main>
@@ -110,18 +109,17 @@ export default function RoleDashboard({ role }) {
       <div className="layout-shell">
         <header className="top-bar">
           <Link to="/" className="top-bar-link">
-            🏠 Home
+            Home
           </Link>
           <span className="top-bar-user">
-            {roleIcons[role]} {user?.name} · {user?.role}
+            {user?.name} · {user?.role}
           </span>
           <button type="button" onClick={logout} className="btn btn-ghost top-bar-logout">
-            🚪 Log out
+            Log out
           </button>
         </header>
         <main className="layout-main">
           <div className="card" style={{ textAlign: 'center', padding: '3rem' }}>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⏳</div>
             <h2>Loading your workspace...</h2>
             <p className="muted">Preparing your personalized dashboard</p>
           </div>
@@ -134,13 +132,13 @@ export default function RoleDashboard({ role }) {
     <div className="layout-shell">
       <header className="top-bar">
         <Link to="/" className="top-bar-link">
-          🏠 Home
+          Home
         </Link>
         <span className="top-bar-user">
-          {roleIcons[role]} {user?.name} · {user?.role}
+          {user?.name} · {user?.role}
         </span>
         <button type="button" onClick={logout} className="btn btn-ghost top-bar-logout">
-          🚪 Log out
+          Log out
         </button>
       </header>
       

@@ -58,10 +58,9 @@ export default function FinancialDashboard() {
       await api.put(`/reimbursement/${id}/payment`, {});
       
       success(
-        `💸 Payment of $${amount} for ${category} (Request #${id}) has been processed successfully!`,
+        `Payment of $${amount} for ${category} (Request #${id}) has been processed successfully.`,
         {
-          title: 'Payment Processed',
-          icon: '💰',
+          title: 'Payment processed',
           duration: 5000
         }
       );
@@ -71,10 +70,9 @@ export default function FinancialDashboard() {
       const errorMessage = err.response?.data?.error || 'Failed to process payment';
       setError(errorMessage);
       notifyError(
-        `❌ Failed to process payment for request #${id}: ${errorMessage}`,
+        `Failed to process payment for request #${id}: ${errorMessage}`,
         {
-          title: 'Payment Failed',
-          icon: '⚠️',
+          title: 'Payment failed',
           duration: 6000
         }
       );
@@ -87,8 +85,8 @@ export default function FinancialDashboard() {
 
   return (
     <section className="panel">
-      <h2 className="section-title">💰 Financial Payment Processing</h2>
-      <p className="lead">Process payments for manager-approved reimbursements</p>
+      <h2 className="section-title">Financial payment processing</h2>
+      <p className="lead">Process manager-approved reimbursements with confidence</p>
 
       <div className="summary-grid">
         <div className="summary-card">
@@ -186,22 +184,13 @@ export default function FinancialDashboard() {
                           border: 'none'
                         }}
                       >
-                        {processingPayment === r.id ? (
-                          <>
-                            <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⏳</span>
-                            Processing...
-                          </>
-                        ) : (
-                          <>
-                            💸 Process Payment
-                          </>
-                        )}
+                        {processingPayment === r.id ? 'Processing...' : 'Process payment'}
                       </button>
                     </div>
                   </div>
                 ) : r.status === 'Paid' ? (
                   <div className="reviewer-note" style={{ background: 'var(--success-light)', borderColor: 'var(--success)' }}>
-                    <strong>✅ Payment Processed</strong> - Funds have been transferred
+                    <strong>Payment processed</strong> - Funds have been transferred
                   </div>
                 ) : null}
               </li>

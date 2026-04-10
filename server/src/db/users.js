@@ -60,6 +60,32 @@ function createUser({ name, email, passwordHash, role }) {
   return findById(newId);
 }
 
+function getUserCount() {
+  const database = getDb();
+  const stmt = database.prepare('SELECT COUNT(*) AS count FROM users');
+  stmt.bind([]);
+  if (!stmt.step()) {
+    stmt.free();
+    return 0;
+  }
+  const row = stmt.getAsObject();
+  stmt.free();
+  return row.count || 0;
+}
+
+function getActiveUserCount() {
+  const database = getDb();
+  const stmt = database.prepare("SELECT COUNT(*) AS count FROM users WHERE role != 'admin'");
+  stmt.bind([]);
+  if (!stmt.step()) {
+    stmt.free();
+    return 0;
+  }
+  const row = stmt.getAsObject();
+  stmt.free();
+  return row.count || 0;
+}
+
 function toPublicUser(row) {
   if (!row) return null;
   return {
@@ -79,4 +105,6 @@ module.exports = {
   findByEmail,
   createUser,
   toPublicUser,
+  getUserCount,
+  getActiveUserCount,
 };

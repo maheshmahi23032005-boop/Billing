@@ -3,10 +3,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const getRolePath = (role) => {
-  if (!role) return '/dashboard/employee';
   switch (role) {
     case 'admin':
-      return '/dashboard/manager';
     case 'manager':
       return '/dashboard/manager';
     case 'employee':
@@ -48,40 +46,28 @@ export default function Login() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{
-            width: '60px',
-            height: '60px',
-            background: 'var(--gradient-primary)',
-            borderRadius: '50%',
-            margin: '0 auto 1rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontSize: '24px',
-            fontWeight: 'bold'
-          }}>
-            💼
+        <div className="auth-brand">
+          <div className="auth-logo">BB</div>
+          <div className="auth-brand-copy">
+            <h1>Balfour Beatty</h1>
+            <p className="muted">Access your corporate billing workspace</p>
           </div>
-          <h1>Welcome Back</h1>
-          <p className="muted">Sign in to your billing portal</p>
         </div>
-        
+
         <form onSubmit={handleSubmit}>
           <label className="auth-field">
-            📧 Email Address
+            Email address
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              placeholder="Enter your email"
+              placeholder="name@company.com"
             />
           </label>
           <label className="auth-field">
-            🔒 Password
+            Password
             <input
               type="password"
               value={password}
@@ -92,37 +78,24 @@ export default function Login() {
             />
           </label>
           {error ? <p className="form-error">{error}</p> : null}
-          <button type="submit" disabled={submitting} className="auth-submit">
-            {submitting ? (
-              <>
-                <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⏳</span>
-                Signing in…
-              </>
-            ) : (
-              <>
-                🚀 Sign in
-              </>
-            )}
+          <button type="submit" disabled={submitting} className="auth-submit btn btn-primary">
+            {submitting ? 'Signing in...' : 'Sign in'}
           </button>
         </form>
-        
+
         <p style={{ marginTop: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
-          No account? <Link to="/register" style={{ color: 'var(--primary)', fontWeight: '600' }}>Create one</Link>
+          New to the system?{' '}
+          <Link to="/register" style={{ color: 'var(--primary)', fontWeight: '600' }}>
+            Create an account
+          </Link>
         </p>
-        
-        <div style={{
-          marginTop: '2rem',
-          padding: '1rem',
-          background: 'var(--surface-elevated)',
-          borderRadius: 'var(--radius)',
-          fontSize: '0.85rem',
-          color: 'var(--text-secondary)'
-        }}>
-          <strong>Demo Accounts:</strong><br/>
-          👔 manager@demo.local / password123<br/>
-          👤 employee@demo.local / password123<br/>
-          👁️ reviewer@demo.local / password123<br/>
-          💰 financial@demo.local / finance123
+
+        <div className="auth-info-box">
+          <strong>Demo accounts</strong>
+          <div>manager@demo.local / password123</div>
+          <div>employee@demo.local / password123</div>
+          <div>reviewer@demo.local / password123</div>
+          <div>financial@demo.local / finance123</div>
         </div>
       </div>
     </div>

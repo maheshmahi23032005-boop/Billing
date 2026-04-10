@@ -60,19 +60,17 @@ export default function ReviewReimbursements() {
       
       if (action === 'approve') {
         success(
-          `✅ Reimbursement #${id} for $${amount} (${category}) has been approved!`,
+          `Reimbursement #${id} for $${amount} (${category}) has been approved.`,
           {
-            title: 'Request Approved',
-            icon: '🎉',
+            title: 'Request approved',
             duration: 5000
           }
         );
       } else {
         info(
-          `❌ Reimbursement #${id} for $${amount} (${category}) has been rejected.${comment ? ` Reason: ${comment}` : ''}`,
+          `Reimbursement #${id} for $${amount} (${category}) has been rejected.${comment ? ` Reason: ${comment}` : ''}`,
           {
-            title: 'Request Rejected',
-            icon: '📝',
+            title: 'Request rejected',
             duration: 5000
           }
         );
@@ -85,8 +83,7 @@ export default function ReviewReimbursements() {
       notifyError(
         `Failed to ${action} reimbursement #${id}: ${errorMessage}`,
         {
-          title: 'Action Failed',
-          icon: '⚠️',
+          title: 'Action failed',
           duration: 6000
         }
       );
@@ -98,7 +95,7 @@ export default function ReviewReimbursements() {
   const totalPages = Math.max(1, Math.ceil(total / limit));
 
   return (
-    <section className="panel">
+    <section className="panel review-reimbursements">
       <h2 className="section-title">Review queue</h2>
 
       <div className="list-toolbar">
@@ -157,7 +154,7 @@ export default function ReviewReimbursements() {
                   {Number(r.taxBreakdown?.totalAmount ?? r.amount).toFixed(2)} · {r.taxBreakdown?.label}
                 </div>
                 {r.status !== 'Pending' && r.comment ? (
-                  <div className="reviewer-note">
+                  <div className={`reviewer-note ${r.status === 'Rejected' ? 'reviewer-note-rejected' : ''}`}>
                     <strong>Comment:</strong> {r.comment}
                   </div>
                 ) : null}
@@ -171,7 +168,7 @@ export default function ReviewReimbursements() {
                       border: '1px solid var(--info)',
                       fontSize: '0.9rem'
                     }}>
-                      📋 <strong>Manager Review Required:</strong> This request is pending your approval. Once approved, it will move to financial processing.
+                      <strong>Manager review required:</strong> This request is pending your approval. Once approved, it will move to financial processing.
                     </div>
                     <label className="form-field form-field-full">
                       Review comment (optional)
@@ -190,16 +187,7 @@ export default function ReviewReimbursements() {
                         onClick={() => act(r.id, 'approve')}
                         className="btn btn-success"
                       >
-                        {busyId === r.id ? (
-                          <>
-                            <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⏳</span>
-                            Processing...
-                          </>
-                        ) : (
-                          <>
-                            ✅ Approve for Payment
-                          </>
-                        )}
+                        {busyId === r.id ? 'Processing...' : 'Approve for payment'}
                       </button>
                       <button
                         type="button"
@@ -207,16 +195,7 @@ export default function ReviewReimbursements() {
                         onClick={() => act(r.id, 'reject')}
                         className="btn btn-danger"
                       >
-                        {busyId === r.id ? (
-                          <>
-                            <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⏳</span>
-                            Processing...
-                          </>
-                        ) : (
-                          <>
-                            ❌ Reject Request
-                          </>
-                        )}
+                        {busyId === r.id ? 'Processing...' : 'Reject request'}
                       </button>
                     </div>
                   </div>
@@ -226,7 +205,7 @@ export default function ReviewReimbursements() {
                     borderColor: 'var(--success)',
                     color: 'var(--success-hover)'
                   }}>
-                    <strong>✅ Approved for Payment</strong>
+                    <strong>Approved for payment</strong>
                     <p style={{ margin: '0.5rem 0 0', fontSize: '0.9rem' }}>
                       This request has been approved and is now ready for financial processing. The financial team will handle the payment.
                     </p>
